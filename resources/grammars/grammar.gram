@@ -1,0 +1,39 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar 
+ */
+
+grammar grammar;
+public <HELLO> = (hello);
+public <EXIT> = (goodbye | exit);
+public <SELECT> = (select | show | display | tell | me | about | describe)+;
+public <ACTORS> = (actors | actress | actor);
+public <MOVIES> = (movie | film | movies | films);
+public <relations> = (starred | acted | was)+;
+public <names> = (chase|ed|swank|joe)+;
+public <movies> = (academy | dinosaur | wars | pluto)+;    
+public <all> = (all);
+public <in> = (in);
+public <WHO> = (who);
+public <year> = nineteen  (eighty | ninety | one | two | three)+;
+public <compare> = (greater | less | than | after | before)+;
+public <from> = (made | from);
+
+//parsed by containing names | movies? and nothing else for the other syntax
+public <lookup> = <SELECT>* <all>* (<names> | <movies>);
+
+//parsed by containing ACTORS | MOVIES and nothing else from the other syntax       
+public <lookupall> = <SELECT>* (<ACTORS> | <MOVIES>);
+
+//parsed by containing who 
+public <actorsinamovie> = <WHO> <relations> <in> <movies>;
+
+//parsed by looking for who not finding it but we still find relations
+public <moviesanactorhasbeenin> = <SELECT> <MOVIES> <names> <relations> <in>*;
+
+//parsed by containing nineteen
+public <moviesfromyear> = <SELECT>* <MOVIES> <from> <in>* <year>;
+public <moviescompareyear> = <SELECT>* <MOVIES> <from> <compare> <year>;
+public <moviesanactorhasbeeninyear> = <SELECT> <MOVIES> <names> <relations> <in> <year>;
+
